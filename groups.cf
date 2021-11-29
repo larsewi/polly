@@ -1,0 +1,27 @@
+# Custom promise type groups test policy
+
+body members foo_members
+{
+  include => { "alice", "bob" };
+  exclude => { "malcom" };
+}
+
+bundle agent foo_group
+{
+  meta:
+      "tags"
+        slist => { "autorun" };
+
+  users:
+      "alice"
+        policy => "present";
+      "bob"
+        policy => "present";
+      "malcom"
+        policy => "present";
+
+  groups:
+      "foo"
+        policy => "present",
+        members => foo_members;
+}
