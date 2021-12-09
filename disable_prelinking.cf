@@ -1,0 +1,43 @@
+bundle agent disable_prelinking
+# @brief Disable prelinking.
+#
+# The prelinking feature changes binaries in  an  attempt  to  decrease  their
+# startup time. Because  the  prelinking  feature  changes  binaries,  it  can
+# interfere with the operation of certain software and/or modes such as  AIDE,
+# FIPS, etc. This module will attempt to disable it.
+#
+{
+  meta:
+    # Enable autorun
+    linux::
+      "tags" slist => { "autorun" };
+
+  vars:
+    # Path to prelink configuration file
+      "_config_file"
+        string => ifelse("suse|redhat", "/etc/sysconfig/prelink",
+                         "/etc/default/prelink");
+
+    # Option we want set in the configuration file ('PRELINKING=no')
+      "_config[PRELINKING]"
+        string => "no";
+
+    # Extend path bundle to include path of prelink binary
+      "_path[prelink]"
+        string => "/usr/sbin/prelink",
+        meta => { "paths.cf" };
+
+  files:
+    # Disable prelink in configuration file
+      "$(_config_file)" -> { "CCE-27078-5" }
+        create => "true",
+        edit_line => set_line_based("$(this.bundle)._config",
+                                    "=", "\s*=\s*", ".*", "\s*#\s*"),
+        classes => results("bundle", "prelink_config_file");
+
+  commands:
+    # Implement changes if prelink configuration file was repaired and path to
+    # binary exists
+    prelink_config_file_repaired&_stdlib_path_exists_prelink::
+      "$(paths.prelink) -ua";
+}

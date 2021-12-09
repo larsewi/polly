@@ -1,0 +1,9 @@
+bundle agent install_prelinking
+{
+  # Enable autorun
+  meta:
+      "tags" slist => { "autorun" };
+
+  packages:
+    "prelink";
+}

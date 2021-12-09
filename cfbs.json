@@ -33,39 +33,23 @@
       "added_by": "cfbs add"
     },
     {
-      "name": "library-for-promise-types-in-python",
-      "description": "Library enabling promise types implemented in python",
-      "tags": ["supported", "library"],
-      "repo": "https://github.com/cfengine/modules",
-      "by": "https://github.com/cfengine",
-      "version": "0.1.1",
-      "commit": "c3b7329b240cf7ad062a0a64ee8b607af2cb912a",
-      "subdirectory": "libraries/python/",
-      "steps": ["copy cfengine.py modules/promises/"],
-      "added_by": "promise-type-groups"
-    },
-    {
-      "name": "promise-type-groups",
-      "description": "Experimental promise type to manage local user groups",
-      "tags": ["supported", "promise-type", "experimental"],
-      "repo": "https://github.com/cfengine/modules",
-      "by": "https://github.com/larsewi",
-      "version": "0.1.2",
-      "commit": "087a2fd81e1bbaf241dfa7bf39013efd9d8d348f",
-      "subdirectory": "promise-types/groups/",
-      "dependencies": ["library-for-promise-types-in-python"],
+      "name": "./disable_prelinking.cf",
+      "description": "Local policy file added using cfbs command line",
+      "tags": ["local"],
+      "dependencies": ["autorun"],
       "steps": [
-        "copy groups.py modules/promises/",
-        "append enable.cf services/init.cf"
+        "copy ./disable_prelinking.cf services/autorun/disable_prelinking.cf"
       ],
       "added_by": "cfbs add"
     },
     {
-      "name": "./groups.cf",
+      "name": "./install_prelinking.cf",
       "description": "Local policy file added using cfbs command line",
       "tags": ["local"],
       "dependencies": ["autorun"],
-      "steps": ["copy ./groups.cf services/autorun/groups.cf"],
+      "steps": [
+        "copy ./install_prelinking.cf services/autorun/install_prelinking.cf"
+      ],
       "added_by": "cfbs add"
     }
   ]
