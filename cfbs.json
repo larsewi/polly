@@ -9,15 +9,9 @@
       "tags": ["supported", "base"],
       "repo": "https://github.com/cfengine/masterfiles",
       "by": "https://github.com/cfengine",
-      "version": "0.1.1",
-      "commit": "5c7dc5b43088e259a94de4e5a9f17c0ce9781a0f",
-      "steps": [
-        "run ./autogen.sh",
-        "delete ./autogen.sh",
-        "run ./cfbs/cleanup.sh",
-        "delete ./cfbs/cleanup.sh",
-        "copy ./ ./"
-      ],
+      "version": "0.3.0",
+      "commit": "f3a8f65e77428a6ab9d62c34057a7ace6ae54ce9",
+      "steps": ["run ./prepare.sh -y", "copy ./ ./"],
       "added_by": "cfbs add"
     },
     {
@@ -33,23 +27,11 @@
       "added_by": "cfbs add"
     },
     {
-      "name": "./disable_prelinking.cf",
+      "name": "./test.cf",
       "description": "Local policy file added using cfbs command line",
       "tags": ["local"],
       "dependencies": ["autorun"],
-      "steps": [
-        "copy ./disable_prelinking.cf services/autorun/disable_prelinking.cf"
-      ],
-      "added_by": "cfbs add"
-    },
-    {
-      "name": "./install_prelinking.cf",
-      "description": "Local policy file added using cfbs command line",
-      "tags": ["local"],
-      "dependencies": ["autorun"],
-      "steps": [
-        "copy ./install_prelinking.cf services/autorun/install_prelinking.cf"
-      ],
+      "steps": ["copy ./test.cf services/autorun/test.cf"],
       "added_by": "cfbs add"
     }
   ]

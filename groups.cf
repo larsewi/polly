@@ -1,5 +1,11 @@
 # Custom promise type groups test policy
 
+promise agent groups
+{
+  interpreter => "/usr/bin/python3";
+  path => "/var/cfengine/inputs/modules/promises/groups.py";
+}
+
 body members foo_members
 {
   include => { "alice", "bob" };
@@ -23,5 +29,12 @@ bundle agent foo_group
   groups:
       "foo"
         policy => "present",
-        members => foo_members;
+        members => foo_members,
+        gid => "123";
+}
+
+bundle agent __main__
+{
+  methods:
+      "foo_group";
 }

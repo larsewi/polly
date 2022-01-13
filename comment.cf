@@ -1,0 +1,37 @@
+promise agent http
+# @brief Define http promise type
+{
+  path => "$(sys.workdir)/modules/promises/http_promise_type.py";
+  interpreter => "/usr/bin/python3";
+}
+
+body file control
+{
+    inputs => { "$(sys.libdir)/reports.cf" };
+}
+
+bundle agent bogus
+{
+  meta:
+      "tags"
+        slist => { "autorun" };
+
+  vars:
+      "path"
+        string => "/tmp/chucknorris.txt";
+
+  http:
+      "https://api.chucknorris.io/jokes/random"
+        method => "GET",
+        file => "$(path)";
+
+  reports:
+      "contents"
+        printfile => cat("$(path)");
+}
+
+bundle agent __main__
+{
+  methods:
+      "bogus";
+}
