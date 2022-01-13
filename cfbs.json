@@ -24,14 +24,42 @@
       "commit": "c3b7329b240cf7ad062a0a64ee8b607af2cb912a",
       "subdirectory": "management/autorun",
       "steps": ["json def.json def.json"],
-      "added_by": "cfbs add"
+      "added_by": "./comment.cf"
     },
     {
-      "name": "./test.cf",
+      "name": "./comment.cf",
       "description": "Local policy file added using cfbs command line",
       "tags": ["local"],
       "dependencies": ["autorun"],
-      "steps": ["copy ./test.cf services/autorun/test.cf"],
+      "steps": ["copy ./comment.cf services/autorun/comment.cf"],
+      "added_by": "cfbs add"
+    },
+    {
+      "name": "library-for-promise-types-in-python",
+      "description": "Library enabling promise types implemented in python",
+      "tags": ["supported", "library"],
+      "repo": "https://github.com/cfengine/modules",
+      "by": "https://github.com/cfengine",
+      "version": "0.1.1",
+      "commit": "c3b7329b240cf7ad062a0a64ee8b607af2cb912a",
+      "subdirectory": "libraries/python/",
+      "steps": ["copy cfengine.py modules/promises/"],
+      "added_by": "promise-type-http"
+    },
+    {
+      "name": "promise-type-http",
+      "description": "Promise type to perform HTTP(S) requests from policy",
+      "tags": ["supported", "promise-type", "http"],
+      "repo": "https://github.com/cfengine/modules",
+      "by": "https://github.com/vpodzime",
+      "version": "1.0.0",
+      "commit": "c861789d4b376147d904fccd76963a92e65eaa97",
+      "subdirectory": "promise-types/http/",
+      "dependencies": ["library-for-promise-types-in-python"],
+      "steps": [
+        "copy http_promise_type.py modules/promises/",
+        "append enable.cf services/init.cf"
+      ],
       "added_by": "cfbs add"
     }
   ]
