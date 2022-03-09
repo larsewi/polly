@@ -1,0 +1,12 @@
+bundle agent __main__
+{
+  files:
+      # Example illustrating an inline anonymous body:
+      "/tmp/my-file"
+        create => "yes";
+        perms => {
+            owners => { "root" };
+            groups => { "root" };
+            mode => "600";
+        }
+}
