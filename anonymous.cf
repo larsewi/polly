@@ -1,16 +1,23 @@
-bundle agent __main__
+# Example illustrating an inline anonymous body
+
+bundle agent my_bundle
 {
   meta:
       "tags"
         slist => { "autorun" };
 
   files:
-      # Example illustrating an inline anonymous body:
-      "/tmp/my-file"
-        create => "yes";
+      "/tmp/my_file"
+        create => "yes",
         perms => {
             owners => { "root" };
             groups => { "root" };
             mode => "600";
-        }
+        };
+}
+
+bundle agent __main__
+{
+  methods:
+      "my_bundle";
 }
