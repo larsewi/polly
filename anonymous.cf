@@ -1,5 +1,9 @@
 bundle agent __main__
 {
+  meta:
+      "tags"
+        slist => { "autorun" };
+
   files:
       # Example illustrating an inline anonymous body:
       "/tmp/my-file"
