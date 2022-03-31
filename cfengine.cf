@@ -1,0 +1,24 @@
+bundle agent cfengine
+{
+  meta:
+      "tags"
+        slist => { "autorun" };
+
+  files:
+      "/tmp/edit_template"
+        content => "[%CFEngine BEGIN %]
+I have $(const.dollar)(sys.cpus) CPU's!
+[%CFEngine END %]
+";
+
+      "/tmp/test"
+        create => "true",
+        template_method => "cfengine",
+        edit_template => "/tmp/edit_template";
+}
+
+bundle agent __main__
+{
+  methods:
+      "cfengine";
+}
