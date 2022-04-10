@@ -1,0 +1,71 @@
+##############################################################################
+#
+# Apache website policy example
+#
+##############################################################################
+
+body common control
+{
+  inputs => { "$(sys.libdir)/stdlib.cf" };
+}
+
+bundle agent website
+{
+  meta:
+    debian|ubuntu::
+      "tags"
+        slist => { "autorun" },
+        comment => "Enable autorun";
+
+  vars:
+      "name"
+        string => "www.website.com",
+        comment => "Website hostname";
+      "admin"
+        string => "admin@localhost",
+        comment => "Website administator";
+      "root"
+        string => "/var/www/website",
+        comment => "Website root directory";
+
+  packages:
+      "apache2"
+        policy => "present",
+        package_module => apt_get,
+        comment => "Install apache package";
+
+  files:
+      "/etc/apache2/apache2.conf"
+        template_method => "cfengine",
+        edit_template => "$(sys.workdir)/templates/websiteconf.tmpl",
+        classes => results("bundle", "config"),
+        comment => "Edit apache config";
+
+      "/var/www/website/index.html"
+        perms => m(644),
+        content => "<html>
+  <head>
+    <title>
+      Hello World!
+    </title>
+    <body>
+      Nick is helpful
+    </body>
+  </head>
+</html>",
+        comment => "Populate website sources";
+
+  services:
+    config_repaired::
+      "apache2"
+        service_policy => "restart",
+        comment => "Reload apache service";
+}
+
+bundle agent __main__
+{
+  methods:
+    debian|ubuntu::
+      "website";
+}
+
