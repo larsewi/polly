@@ -1,0 +1,26 @@
+bundle agent templates
+{
+  meta:
+    linux::
+      "tags"
+        slist => { "autorun" };
+
+  vars:
+      "d"
+        data => '{ "user": "larsewi" }';
+
+  files:
+      "/tmp/greetings.tpl"
+        content => "Hello {{{user!}}}";
+
+      "/tmp/greetings.txt"
+        edit_template => "/tmp/greetings.tpl",
+        template_method => "mustache",
+        template_data => @(d);
+}
+
+bundle agent __main__
+{
+  methods:
+      "templates";
+}
