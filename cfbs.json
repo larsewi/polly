@@ -13,6 +13,43 @@
       "commit": "379c69aa71ab3069b2ef1c0cca526192fa77b864",
       "added_by": "cfbs add",
       "steps": ["run ./prepare.sh -y", "copy ./ ./"]
+    },
+    {
+      "name": "./test.cf",
+      "description": "Local policy file added using cfbs command line",
+      "tags": ["local"],
+      "added_by": "cfbs add",
+      "steps": [
+        "copy ./test.cf services/cfbs/test.cf",
+        "policy_files services/cfbs/test.cf",
+        "bundles bogus"
+      ]
+    },
+    {
+      "name": "./custom.cf",
+      "description": "Foo",
+      "tags": ["local"],
+      "added_by": "cfbs add",
+      "steps": ["append ./custom.cf services/init.cf"]
+    },
+    {
+      "name": "./custom.py",
+      "description": "Bar",
+      "tags": ["local"],
+      "added_by": "cfbs add",
+      "steps": ["copy ./custom.py modules/promises/"]
+    },
+    {
+      "name": "library-for-promise-types-in-python",
+      "description": "Library enabling promise types implemented in python.",
+      "tags": ["supported", "library"],
+      "repo": "https://github.com/cfengine/modules",
+      "by": "https://github.com/cfengine",
+      "version": "0.2.1",
+      "commit": "70afe61739bbb2cfc205dc0b604fbdda96b6be43",
+      "subdirectory": "libraries/python",
+      "added_by": "cfbs add",
+      "steps": ["copy cfengine.py modules/promises/"]
     }
   ],
   "git": false

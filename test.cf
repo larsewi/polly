@@ -1,0 +1,10 @@
+bundle agent bogus {
+  custom:
+    windows::
+      "foo"
+        outcome => "kept";
+      "bar"
+        outcome => "repaired";
+      "baz"
+        outcome => "not-kept";
+}

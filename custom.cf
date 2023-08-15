@@ -1,0 +1,7 @@
+promise agent custom
+# @brief Define custom promise type
+{
+  path => "$(sys.workdir)$(const.dirsep)modules$(const.dirsep)promises$(const.dirsep)custom.py";
+  interpreter => "C:\Users\Administrator\AppData\Local\Programs\Python\Python311\python.exe";
+#   interpreter => "/usr/bin/python3";
+}
