@@ -1,0 +1,26 @@
+bundle agent bogus {
+  vars:
+    windows::
+      "begin" string => "C:\\";
+    !windows::
+      "begin" string => "/";
+    any::
+      "path" string => "$(begin)repo$(const.dirsep)submodule$(const.dirsep)some$(const.dirsep)place$(const.dirsep)deep$(const.dirsep)within$(const.dirsep)my$(const.dirsep)repo$(const.dirsep)";
+      "submodule" string => "$(begin)repo$(const.dirsep)submodule$(const.dirsep).git$(const.dirsep)config";
+      "repository" string => "$(begin)repo$(const.dirsep).git$(const.dirsep)config";
+
+      "glob" string => ".git$(const.dirsep)config";
+      "level" int => "inf";
+      "configs_down" slist => findfiles("$(begin)repo$(const.dirsep)**$(const.dirsep)$(glob)");
+      "configs" data => findfiles_up("$(path)", "$(glob)", "$(level)");
+
+  files:
+      "$(path)." create => "true";
+      "$(submodule)" create => "true";
+      "$(repository)" create => "true";
+
+  reports:
+      "Down: $(configs_down)";
+      "Up: Submodule '$(glob)' is located in '$(configs[0])'";
+      "Up: Repository '$(glob)' is located in '$(configs[1])'";
+}
