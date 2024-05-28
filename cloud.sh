@@ -1,15 +1,16 @@
 #!/bin/bash
 
-cf-remote spawn --platform ubuntu-22-04-x64 --name ubuntu --count 1 --role hub
-cf-remote spawn --platform windows-2016-x64 --name windows --count 1 --role client
+cf-remote spawn --platform ubuntu-22-04-arm64 --name ubuntu --count 1 --role hub
+# cf-remote spawn --platform ubuntu-22-04-x64 --name client --count 1 --role client
 
-sleep 60
+for sec in {60..1}
+do
+    echo Waiting $sec seconds ...
+    sleep 1
+done
 
-# cf-remote --version master install --demo --bootstrap ubuntu --hub ubuntu
-# cf-remote --version master install --demo --bootstrap ubuntu --clients windows
+cf-remote install --package "https://buildcache.cfengine.com/packages/testing-pr/jenkins-pr-pipeline-10808/PACKAGES_HUB_arm_64_linux_ubuntu_24/cfengine-nova-hub_3.24.0a.fde419ddf~33268.ubuntu24_arm64.deb" --bootstrap ubuntu --hub ubuntu
+# cf-remote install --package "https://buildcache.cfengine.com/packages/testing-pr/jenkins-pr-pipeline-10779/PACKAGES_x86_64_linux_ubuntu_22/cfengine-nova_3.24.0a.62f7a4d25~33169.ubuntu22_amd64.deb" --bootstrap ubuntu --clients client
 
-cf-remote install --package "http://buildcache.cfengine.com/packages/testing-pr/jenkins-pr-pipeline-9670/PACKAGES_HUB_x86_64_linux_ubuntu_20/cfengine-nova-hub_3.23.0a.186345f23~28238.ubuntu20_amd64.deb" --demo --bootstrap ubuntu --hub ubuntu
-cf-remote install --package "http://buildcache.cfengine.com/packages/testing-pr/jenkins-pr-pipeline-9670/PACKAGES_i386_mingw/cfengine-nova-3.23.0a-28238-i686.msi" --demo --bootstrap ubuntu --clients windows
-
-cfbs build
-cf-remote deploy --hub ubuntu
+# cfbs build
+# cf-remote deploy --hub ubuntu
