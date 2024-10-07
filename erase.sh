@@ -7,4 +7,5 @@ cf-remote run --hosts vagrant-hub "sudo rm -rf /var/cfengine/"
 cf-remote run --hosts vagrant-hub "sudo rm -rf /opt/cfengine/"
 cf-remote run --hosts vagrant-hub "sudo rm -rf /var/log/CFEngine-Install.log"
 cf-remote run --hosts vagrant-hub "sudo rm -rf /var/log/postgresql.log"
+cf-remote run --hosts vagrant-hub "rm -rf /home/vagrant/cfengine-nova-*.deb"
 

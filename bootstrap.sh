@@ -2,8 +2,8 @@
 
 # Hub
 cf-remote save --hosts vagrant@192.168.56.10 --role hub --name vagrant-hub
-# cf-remote --version master install --bootstrap hub --hub vagrant-hub
-cf-remote install --package "https://buildcache.cfengine.com/packages/testing-pr/jenkins-pr-pipeline-10811/PACKAGES_HUB_x86_64_linux_ubuntu_22/cfengine-nova-hub_3.24.0a.fde419ddf~33266.ubuntu22_amd64.deb" --bootstrap hub --hub bagrant-hub
+cf-remote install --bootstrap hub --hub vagrant-hub
+# cf-remote install --package "https://buildcache.cfengine.com/packages/testing-pr/jenkins-pr-pipeline-10888/PACKAGES_HUB_x86_64_linux_ubuntu_22/cfengine-nova-hub_3.24.0a.f38177316~33542.ubuntu22_amd64.deb" --bootstrap hub --hub vagrant-hub
 
 # cfbs build
 # cf-remote deploy --hub vagrant-hub

@@ -1,7 +1,8 @@
 {
   "name": "Example project",
-  "type": "policy-set",
   "description": "Example description",
+  "type": "policy-set",
+  "git": false,
   "build": [
     {
       "name": "masterfiles",
@@ -9,22 +10,13 @@
       "tags": ["supported", "base"],
       "repo": "https://github.com/cfengine/masterfiles",
       "by": "https://github.com/cfengine",
-      "version": "3.21.0",
-      "commit": "379c69aa71ab3069b2ef1c0cca526192fa77b864",
-      "added_by": "cfbs add",
-      "steps": ["run ./prepare.sh -y", "copy ./ ./"]
-    },
-    {
-      "name": "./bogus.cf",
-      "description": "Local policy file added using cfbs command line",
-      "tags": ["local"],
+      "version": "3.21.4",
+      "commit": "80374429aa8d9f1d5afe952727ae5659caf5e9ef",
       "added_by": "cfbs add",
       "steps": [
-        "copy ./bogus.cf services/cfbs/bogus.cf",
-        "policy_files services/cfbs/bogus.cf",
-        "bundles bogus"
+        "run EXPLICIT_VERSION=3.21.4 EXPLICIT_RELEASE=1 ./prepare.sh -y",
+        "copy ./ ./"
       ]
     }
-  ],
-  "git": false
+  ]
 }
