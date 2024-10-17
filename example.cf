@@ -1,0 +1,17 @@
+body copy_from force_copy(from)
+{
+    servers => { "192.168.56.10" };
+    source => "$(from)";
+    compare => "digest";
+    copy_backup => "false";
+    stealth => "true";
+}
+
+bundle agent example
+{
+    files:
+        "/tmp/destination/."
+            copy_from => force_copy("/tmp/source"),
+            depth_search => recurse("1"),
+            perms => mog("0644","root","root");
+}
