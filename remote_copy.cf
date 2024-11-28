@@ -1,0 +1,27 @@
+bundle agent remote_copy
+{
+    files:
+        "/tmp/source/."
+            create => "true",
+            perms => mog("0777", "vagrant", "vagrant");
+        "/tmp/dest/."
+            create => "true",
+            perms => mog("0777", "vagrant", "vagrant"),
+            copy_from => force_cp,
+            depth_search => recurse("inf");
+}
+
+body copy_from force_cp
+{
+    servers => { "$(sys.policy_hub)"};
+    source => "/tmp/source";
+    compare => "mtime";
+    copy_backup => "false";
+    stealth => "true";
+}
+
+bundle agent __main__
+{
+    methods:
+        "remote_copy";
+}

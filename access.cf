@@ -1,0 +1,7 @@
+bundle server my_access_rules
+{
+  access:
+    "/tmp/source"
+      admit => { "192.168.56.10", @(def.acl) };
+}
+

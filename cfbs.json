@@ -1,7 +1,8 @@
 {
   "name": "Example project",
-  "type": "policy-set",
   "description": "Example description",
+  "type": "policy-set",
+  "git": false,
   "build": [
     {
       "name": "masterfiles",
@@ -9,11 +10,34 @@
       "tags": ["supported", "base"],
       "repo": "https://github.com/cfengine/masterfiles",
       "by": "https://github.com/cfengine",
-      "version": "3.21.0",
-      "commit": "379c69aa71ab3069b2ef1c0cca526192fa77b864",
+      "version": "3.24.0",
+      "commit": "d5d5c61942a97ec5e3fd35478e590c5943db5ac5",
       "added_by": "cfbs add",
-      "steps": ["run ./prepare.sh -y", "copy ./ ./"]
+      "steps": [
+        "run EXPLICIT_VERSION=3.24.0 EXPLICIT_RELEASE=1 ./prepare.sh -y",
+        "copy ./ ./"
+      ]
+    },
+    {
+      "name": "./access.cf",
+      "description": "Local policy file added using cfbs command line",
+      "tags": ["local"],
+      "added_by": "cfbs add",
+      "steps": [
+        "copy ./access.cf services/cfbs/access.cf",
+        "policy_files services/cfbs/access.cf"
+      ]
+    },
+    {
+      "name": "./remote_copy.cf",
+      "description": "Local policy file added using cfbs command line",
+      "tags": ["local"],
+      "added_by": "cfbs add",
+      "steps": [
+        "copy ./remote_copy.cf services/cfbs/remote_copy.cf",
+        "policy_files services/cfbs/remote_copy.cf",
+        "bundles remote_copy"
+      ]
     }
-  ],
-  "git": false
+  ]
 }
