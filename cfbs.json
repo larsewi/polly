@@ -10,22 +10,12 @@
       "tags": ["supported", "base"],
       "repo": "https://github.com/cfengine/masterfiles",
       "by": "https://github.com/cfengine",
-      "version": "3.24.0",
-      "commit": "d5d5c61942a97ec5e3fd35478e590c5943db5ac5",
-      "added_by": "cfbs add",
+      "version": "3.24.1",
+      "commit": "1171e2e50a229d78e2fdd4357a5d07ecc19bdbf4",
+      "added_by": "cfbs init",
       "steps": [
-        "run EXPLICIT_VERSION=3.24.0 EXPLICIT_RELEASE=1 ./prepare.sh -y",
+        "run EXPLICIT_VERSION=3.24.1 EXPLICIT_RELEASE=1 ./prepare.sh -y",
         "copy ./ ./"
-      ]
-    },
-    {
-      "name": "./access.cf",
-      "description": "Local policy file added using cfbs command line",
-      "tags": ["local"],
-      "added_by": "cfbs add",
-      "steps": [
-        "copy ./access.cf services/cfbs/access.cf",
-        "policy_files services/cfbs/access.cf"
       ]
     },
     {
@@ -36,7 +26,7 @@
       "steps": [
         "copy ./remote_copy.cf services/cfbs/remote_copy.cf",
         "policy_files services/cfbs/remote_copy.cf",
-        "bundles remote_copy"
+        "bundles main"
       ]
     }
   ]

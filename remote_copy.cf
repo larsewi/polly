@@ -1,27 +1,14 @@
-bundle agent remote_copy
-{
-    files:
-        "/tmp/source/."
-            create => "true",
-            perms => mog("0777", "vagrant", "vagrant");
-        "/tmp/dest/."
-            create => "true",
-            perms => mog("0777", "vagrant", "vagrant"),
-            copy_from => force_cp,
-            depth_search => recurse("inf");
-}
-
-body copy_from force_cp
+body copy_from the_hub
 {
     servers => { "$(sys.policy_hub)"};
-    source => "/tmp/source";
-    compare => "mtime";
-    copy_backup => "false";
-    stealth => "true";
+    source => "/var/cfengine/masterfiles/promises.cf";
+    compare => "digest";
 }
 
-bundle agent __main__
+bundle agent main
 {
-    methods:
-        "remote_copy";
+    files:
+        "/tmp/promises.cf"
+            create => "true",
+            copy_from => the_hub;
 }
