@@ -1,9 +1,18 @@
 #!/bin/bash
 
-cf-remote run --hosts hub "sudo systemctl stop cfengine3"
-cf-remote run --hosts hub "sudo apt remove -y cfengine-nova-hub"
-cf-remote run --hosts hub "sudo rm -rf /var/cfengine/"
-cf-remote run --hosts hub "sudo rm -rf /opt/cfengine/"
-cf-remote run --hosts hub "sudo rm -rf /var/log/CFEngine-Install*log"
-cf-remote run --hosts hub "sudo rm -rf /var/log/postgresql.log"
+for host in hub debian redhat; do
+  cf-remote sudo --hosts $host "systemctl stop cfengine3"
+  case "$host" in
+  hub)
+    cf-remote sudo --hosts $host "apt purge -y cfengine-nova-hub";;
+  redhat)
+    cf-remote sudo --hosts $host "dnf remove -y cfengine-nova";;
+  debian)
+    cf-remote sudo --hosts $host "apt purge -y cfengine-nova";;
+  esac
+  cf-remote sudo --hosts $host "rm -rf /var/cfengine/"
+  cf-remote sudo --hosts $host "rm -rf /opt/cfengine/"
+  cf-remote sudo --hosts $host "rm -rf /var/log/CFEngine-Install*log"
+  cf-remote sudo --hosts $host "rm -rf /var/log/postgresql.log"
+done
 

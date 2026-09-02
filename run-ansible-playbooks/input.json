@@ -1,0 +1,39 @@
+[
+  {
+    "type": "list",
+    "variable": "playbooks",
+    "namespace": "run_ansible_playbooks",
+    "bundle": "main",
+    "label": "Playbooks",
+    "subtype": [
+      {
+        "key": "path",
+        "type": "string",
+        "label": "Path",
+        "question": "Playbooks to run"
+      },
+      {
+        "key": "condition",
+        "type": "string",
+        "label": "Condition",
+        "question": "Condition for when to run",
+        "default": "any"
+      },
+      {
+        "key": "ifelapsed",
+        "type": "string",
+        "label": "ifelapsed",
+        "question": "Number of minutes between playbook assessments",
+        "default": "5"
+      }
+    ],
+    "while": "Do you want to specify more playbooks to be run?",
+    "response": [
+      {
+        "path": "/var/cfengine/inputs/services/cfbs/playbooks/playbook.yaml",
+        "condition": "any",
+        "ifelapsed": "5"
+      }
+    ]
+  }
+]

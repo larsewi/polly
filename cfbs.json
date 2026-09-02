@@ -10,24 +10,119 @@
       "tags": ["supported", "base"],
       "repo": "https://github.com/cfengine/masterfiles",
       "by": "https://github.com/cfengine",
-      "version": "3.27.0",
-      "commit": "d2f1fa5ea0eebfbc94a2342f20aa47740affa762",
+      "version": "3.27.1",
+      "commit": "15d8ca2ca951db3ddf197b90c9dea6ef75f5fa89",
       "added_by": "cfbs init",
       "steps": [
-        "run EXPLICIT_VERSION=3.27.0 EXPLICIT_RELEASE=1 ./prepare.sh -y",
+        "run EXPLICIT_VERSION=3.27.1 EXPLICIT_RELEASE=1 ./prepare.sh -y",
         "copy ./ ./"
       ]
     },
     {
-      "name": "./grub.cf",
-      "description": "Local policy file added using cfbs command line",
+      "name": "library-for-promise-types-in-python",
+      "description": "Library enabling promise types implemented in python.",
+      "url": "https://github.com/larsewi/modules.git",
+      "commit": "19d6e2639e77a52b1f3da1a050f9a06018c5b607",
+      "branch": "ansible-promise",
+      "subdirectory": "libraries/python",
+      "added_by": "promise-type-ansible",
+      "steps": [
+        "copy cfengine_module_library.py modules/promises/cfengine_module_library.py",
+        "copy cfengine_module_library.py modules/promises/cfengine.py"
+      ]
+    },
+    {
+      "name": "promise-type-ansible",
+      "description": "Promise type to manage systemd services.",
+      "url": "https://github.com/larsewi/modules.git",
+      "commit": "19d6e2639e77a52b1f3da1a050f9a06018c5b607",
+      "branch": "ansible-promise",
+      "subdirectory": "promise-types/ansible",
+      "dependencies": ["library-for-promise-types-in-python"],
+      "added_by": "run-ansible-playbooks",
+      "steps": [
+        "copy ansible_promise.py modules/promises/",
+        "append enable.cf services/init.cf"
+      ]
+    },
+    {
+      "name": "run-ansible-playbooks",
+      "description": "Run Ansible playbooks",
+      "url": "https://github.com/larsewi/modules.git",
+      "commit": "19d6e2639e77a52b1f3da1a050f9a06018c5b607",
+      "branch": "ansible-promise",
+      "subdirectory": "management/run-ansible-playbooks",
+      "dependencies": ["promise-type-ansible"],
+      "added_by": "cfbs add",
+      "steps": [
+        "copy main.cf services/cfbs/modules/run-ansible-playbooks/main.cf",
+        "policy_files services/cfbs/modules/run-ansible-playbooks/main.cf",
+        "bundles run_ansible_playbooks:main",
+        "input ./input.json def.json"
+      ],
+      "input": [
+        {
+          "type": "list",
+          "variable": "playbooks",
+          "namespace": "run_ansible_playbooks",
+          "bundle": "main",
+          "label": "Playbooks",
+          "subtype": [
+            {
+              "key": "path",
+              "type": "string",
+              "label": "Path",
+              "question": "Playbooks to run"
+            },
+            {
+              "key": "condition",
+              "type": "string",
+              "label": "Condition",
+              "question": "Condition for when to run",
+              "default": "any"
+            },
+            {
+              "key": "ifelapsed",
+              "type": "string",
+              "label": "ifelapsed",
+              "question": "Number of minutes between playbook assessments",
+              "default": "5"
+            }
+          ],
+          "while": "Do you want to specify more playbooks to be run?"
+        }
+      ]
+    },
+    {
+      "name": "install-ansible",
+      "description": "Optionally install ansible.",
+      "url": "https://github.com/larsewi/modules.git",
+      "commit": "19d6e2639e77a52b1f3da1a050f9a06018c5b607",
+      "branch": "ansible-promise",
+      "subdirectory": "software/install-ansible",
+      "added_by": "cfbs add",
+      "steps": [
+        "copy install-ansible.cf services/cfbs/software/install-ansible/install-ansible.cf",
+        "policy_files services/cfbs/software/install-ansible/install-ansible.cf",
+        "bundles install_ansible"
+      ]
+    },
+    {
+      "name": "./playbooks/",
+      "description": "Local subdirectory added using cfbs command line",
       "tags": ["local"],
       "added_by": "cfbs add",
       "steps": [
-        "copy ./grub.cf services/cfbs/grub.cf",
-        "policy_files services/cfbs/grub.cf",
-        "bundles test"
+        "directory ./ services/cfbs/playbooks/",
+        "policy_files services/cfbs/playbooks/"
       ]
+    },
+    {
+      "name": "./def.json",
+      "description": "Local augments file added using cfbs command line",
+      "tags": ["local"],
+      "added_by": "cfbs add",
+      "steps": ["json ./def.json def.json"]
     }
   ]
 }
